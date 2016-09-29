@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zlebank.zplatform</groupId>
+		<artifactId>zplatform-member-merchant-deploy</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../zplatform-member-merchant-deploy/pom.xml</relativePath>
+	</parent>
+	 <artifactId>zplatform-member-merchant-api</artifactId>
+	<packaging>jar</packaging>
+	<name>zplatform-member-merchant-api</name>
+	<url>http://maven.apache.org</url>
+	<description>证联支付平台-商户/企业会员服务API</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+
+	</dependencies>
+</project>
