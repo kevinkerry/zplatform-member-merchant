@@ -22,10 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zlebank.zplatform.member.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.member.commons.utils.Md5;
 import com.zlebank.zplatform.member.commons.utils.StringUtil;
+import com.zlebank.zplatform.member.coopinsti.bean.CoopInsti;
+import com.zlebank.zplatform.member.coopinsti.service.CoopInstiService;
 import com.zlebank.zplatform.member.exception.CreateMemberFailedException;
 import com.zlebank.zplatform.member.exception.DataCheckFailedException;
 import com.zlebank.zplatform.member.exception.InvalidMemberDataException;
 import com.zlebank.zplatform.member.exception.PrimaykeyGeneratedException;
+import com.zlebank.zplatform.member.individual.bean.MemberApplyBean;
 import com.zlebank.zplatform.member.individual.bean.MemberBean;
 import com.zlebank.zplatform.member.individual.bean.QuickpayCustBean;
 import com.zlebank.zplatform.member.individual.bean.enums.MemberStatusType;
@@ -40,12 +43,16 @@ import com.zlebank.zplatform.member.merchant.bean.EnterpriseBankAccountBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameConfirmBean;
+import com.zlebank.zplatform.member.merchant.dao.BankInfoDAO;
 import com.zlebank.zplatform.member.merchant.dao.EnterpriseDAO;
 import com.zlebank.zplatform.member.merchant.dao.EnterpriseDetaApplyDAO;
+import com.zlebank.zplatform.member.merchant.dao.ProvinceDAO;
+import com.zlebank.zplatform.member.merchant.pojo.PojoBankInfo;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseDeta;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseDetaApply;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseRealnameApply;
 import com.zlebank.zplatform.member.merchant.pojo.PojoMember;
+import com.zlebank.zplatform.member.merchant.pojo.PojoProvince;
 import com.zlebank.zplatform.member.merchant.service.EnterpriseRealnameApplyService;
 import com.zlebank.zplatform.member.merchant.service.EnterpriseService;
 
@@ -81,12 +88,14 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     private EnterpriseRealnameApplyService enterpriseRealnameApplyService;
     @Autowired
     private BankInfoDAO bankInfoDAO;
-    @Autowired
-    private MemberDAO memberDAO;
+   /* @Autowired
+    private MemberDAO memberDAO;*/
     @Autowired
     private MemberBankCardService memberBankCardService;
     @Autowired
     private MemberOperationService memberOperationService;
+    
+    private MemberInfoService memberInfoService;
     
     private final static String MERCHPARATYPE="MERCHBIN";// 企业会员
     private final static String MEMBER_IDSEQUENCES = "seq_t_merch_deta_memberid";// 会员号生成用序列
@@ -130,7 +139,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 		CoopInsti coopInsti = coopInstiService.getInstiByInstiCode(enterpriseDeta.getCoopInstiCode());
 		try {
 			//通过手机号查询是否绑定过会员
-			PojoMember member = memberService.getMemberByPhoneAndCoopInsti(enterpriseDeta.getCellPhoneNo(), coopInsti.getId());//getMemberByphone(enterpriseDeta.getCellPhoneNo());
+			MemberBean member = memberService.getMemberByPhoneAndCoopInsti(enterpriseDeta.getCellPhoneNo(), coopInsti.getId());//getMemberByphone(enterpriseDeta.getCellPhoneNo());
 			if(member!=null){
 				 throw new CreateMemberFailedException("企业手机号已被注册");
 			}
@@ -141,9 +150,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 			throw new CreateMemberFailedException("企业注册失败");
 		}
 		
-		PojoMemberApply pojo = new PojoMemberApply();
-		pojo.setMemberId(memberId);// 会员ID
-		setMemberComm(pojo, enterpriseDeta); // T_member 属性设定
+		MemberApplyBean bean = new MemberApplyBean();
+		bean.setMemberId(memberId);// 会员ID
+		setMemberComm(bean, enterpriseDeta); // T_member 属性设定
 		
 		PojoEnterpriseDetaApply enterpriseDetaApply = BeanCopyUtil.copyBean(PojoEnterpriseDetaApply.class, enterpriseDeta);
 		enterpriseDetaApply.setMemberId(memberId);
@@ -162,11 +171,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 		}
 		enterpriseDetaApply.setStatus("10");
 		enterpriseDetaApply.setInUser(0L);
-		pojo.setInstiCode(coopInsti.getId()+"");
-		pojo=memberApplyDAO.merge(pojo);
-		enterpriseDetaApply.setSelfId(pojo.getSelfId());
-		enterpriseDetaApply.setEnterpriseId(pojo.getMemId());
-		enterpriseDetaApplyDAO.saveA(enterpriseDetaApply);
+		bean.setInstiCode(coopInsti.getId());
+		bean=memberInfoService.saveMemberApply(bean);
+		enterpriseDetaApply.setSelfId(bean.getSelfId());
+		enterpriseDetaApply.setEnterpriseId(bean.getMemId());
+		enterpriseDetaApplyDAO.saveEntity(enterpriseDetaApply);
 		return memberId;
 	}
 	
@@ -176,8 +185,8 @@ public class EnterpriseServiceImpl implements EnterpriseService {
      * @param bean
      * @param memberType 
      */
-    private void setMemberComm(PojoMemberApply pojo, EnterpriseBean bean) {
-        pojo.setInstiCode(bean.getCoopInstiId()+"");// 合作机构
+    private void setMemberComm(MemberApplyBean pojo, EnterpriseBean bean) {
+        pojo.setInstiCode(bean.getCoopInstiId());// 合作机构
         pojo.setMemberName(bean.getEnterpriseName());// 会员昵称
         pojo.setLoginName(bean.getEmail());// 登录名
         pojo.setPwd(Md5.getInstance().md5s("123456"));// 登录密码
@@ -292,7 +301,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 		enterpriseRealnameApply.setBankCode(bankInfo.getBankCode());
 		enterpriseRealnameApply.setBankName(bankInfo.getMainBankSname());
 		enterpriseRealnameApply.setBusiType("01");//01 企业实名认证
-		enterpriseRealnameApplyService.saveEnterpriseRealnameApply(enterpriseRealnameApply);
+		enterpriseRealnameApplyService.saveEnterpriseRealnameApply(BeanCopyUtil.copyBean(EnterpriseRealNameBean.class, enterpriseRealnameApply));
 	}
 	
 	@Override
@@ -312,7 +321,8 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 		//2.会员实名认证登记，lv3
 		MemberBean memberEnterprise = memberService.getMemberByMemberId(enterpriseRealNameConfirmBean.getMemberId(), MemberType.ENTERPRISE);
 		memberEnterprise.setRealnameLv(RealNameLvType.LV3.getCode());
-		memberDAO.update(memberEnterprise);
+		//memberDAO.update(memberEnterprise);
+		memberInfoService.updateMemberInfo(memberEnterprise);
 		//3.绑定对公账户
 		QuickpayCustBean bean = new QuickpayCustBean();
 		bean.setAccname(enterpriseRealnameApply.getAccName());
@@ -368,12 +378,12 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 		enterpriseRealnameApply.setBankCode(bankInfo.getBankCode());
 		enterpriseRealnameApply.setBankName(bankInfo.getMainBankSname());
 		enterpriseRealnameApply.setBusiType("02");//01 企业绑定银行账户
-		enterpriseRealnameApplyService.saveEnterpriseRealnameApply(enterpriseRealnameApply);
+		enterpriseRealnameApplyService.saveEnterpriseRealnameApply(BeanCopyUtil.copyBean(EnterpriseRealNameBean.class, enterpriseRealnameApply));
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public void bindingBankAccountFinish(Long tid){
-		PojoEnterpriseRealnameApply enterpriseRealnameApply = enterpriseRealnameApplyService.get(tid);
+		EnterpriseRealNameBean enterpriseRealnameApply = enterpriseRealnameApplyService.get(tid);
 		//获取企业的详细信息
 		PojoEnterpriseDeta enterpriseDeta = enterpriseDAO.getEnterpriseByMemberId(enterpriseRealnameApply.getMemberId());
 		QuickpayCustBean bean = new QuickpayCustBean();

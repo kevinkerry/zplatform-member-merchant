@@ -51,9 +51,9 @@ public class EnterpriseRealNameBean  implements Serializable {
 	private String tn;
 	
 	private long tid;
-	
-	
-	
+	private Long txnamt;
+	private String status;
+	private String bankName;
 	/**
      * @return the tid
      */
@@ -293,6 +293,42 @@ public class EnterpriseRealNameBean  implements Serializable {
 	 */
 	public void setTn(String tn) {
 		this.tn = tn;
+	}
+	/**
+	 * @return the txnamt
+	 */
+	public Long getTxnamt() {
+		return txnamt;
+	}
+	/**
+	 * @param txnamt the txnamt to set
+	 */
+	public void setTxnamt(Long txnamt) {
+		this.txnamt = txnamt;
+	}
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	/**
+	 * @return the bankName
+	 */
+	public String getBankName() {
+		return bankName;
+	}
+	/**
+	 * @param bankName the bankName to set
+	 */
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 	
 	
