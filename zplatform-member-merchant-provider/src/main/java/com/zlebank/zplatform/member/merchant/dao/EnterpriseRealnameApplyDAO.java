@@ -12,7 +12,7 @@ package com.zlebank.zplatform.member.merchant.dao;
 
 import java.util.List;
 
-import com.zlebank.zplatform.commons.dao.BaseDAO;
+import com.zlebank.zplatform.member.commons.dao.BaseDAO;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameQueryBean;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseRealnameApply;
 

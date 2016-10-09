@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 
-import com.zlebank.zplatform.commons.dao.pojo.BaseEnumSqlType;
+import com.zlebank.zplatform.member.commons.enums.BaseEnumSqlType;
 import com.zlebank.zplatform.member.individual.bean.enums.RealNameLvType;
 
 public class RealNameLvSqlType extends BaseEnumSqlType<RealNameLvType>{

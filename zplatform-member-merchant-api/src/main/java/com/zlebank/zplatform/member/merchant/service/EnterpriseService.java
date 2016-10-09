@@ -10,13 +10,13 @@
  */
 package com.zlebank.zplatform.member.merchant.service;
 
+import com.zlebank.zplatform.member.exception.CreateMemberFailedException;
+import com.zlebank.zplatform.member.exception.DataCheckFailedException;
+import com.zlebank.zplatform.member.exception.InvalidMemberDataException;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseBankAccountBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameConfirmBean;
-import com.zlebank.zplatform.member.merchant.exception.CreateMemberFailedException;
-import com.zlebank.zplatform.member.merchant.exception.DataCheckFailedException;
-import com.zlebank.zplatform.member.merchant.exception.InvalidMemberDataException;
 
 /**
  * 

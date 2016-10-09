@@ -10,7 +10,7 @@
  */
 package com.zlebank.zplatform.member.merchant.dao;
 
-import com.zlebank.zplatform.commons.dao.BaseDAO;
+import com.zlebank.zplatform.member.commons.dao.BaseDAO;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseDetaApply;
 
 /**

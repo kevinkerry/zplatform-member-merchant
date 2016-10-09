@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
+import com.zlebank.zplatform.member.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.member.merchant.bean.DefaultPageResult;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameBean;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameQueryBean;
@@ -51,7 +51,7 @@ public class EnterpriseRealnameApplyServiceImpl implements EnterpriseRealnameApp
 			EnterpriseRealNameBean enterpriseRealnameApply) {
 		//PojoEnterpriseRealnameApply 
 		PojoEnterpriseRealnameApply copyBean = BeanCopyUtil.copyBean(PojoEnterpriseRealnameApply.class, enterpriseRealnameApply);
-		enterpriseRealnameApplyDAO.saveA(copyBean);
+		enterpriseRealnameApplyDAO.saveEntity(copyBean);
 	}
 
 	/**

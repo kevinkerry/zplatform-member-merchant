@@ -16,8 +16,8 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl;
-import com.zlebank.zplatform.commons.utils.StringUtil;
+import com.zlebank.zplatform.member.commons.dao.impl.HibernateBaseDAOImpl;
+import com.zlebank.zplatform.member.commons.utils.StringUtil;
 import com.zlebank.zplatform.member.merchant.bean.EnterpriseRealNameQueryBean;
 import com.zlebank.zplatform.member.merchant.dao.EnterpriseRealnameApplyDAO;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseRealnameApply;

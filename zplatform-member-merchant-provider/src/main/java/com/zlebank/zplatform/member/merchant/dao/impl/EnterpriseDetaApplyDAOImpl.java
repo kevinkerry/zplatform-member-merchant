@@ -12,7 +12,7 @@ package com.zlebank.zplatform.member.merchant.dao.impl;
 
 import org.springframework.stereotype.Repository;
 
-import com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl;
+import com.zlebank.zplatform.member.commons.dao.impl.HibernateBaseDAOImpl;
 import com.zlebank.zplatform.member.merchant.dao.EnterpriseDetaApplyDAO;
 import com.zlebank.zplatform.member.merchant.pojo.PojoEnterpriseDetaApply;
 
