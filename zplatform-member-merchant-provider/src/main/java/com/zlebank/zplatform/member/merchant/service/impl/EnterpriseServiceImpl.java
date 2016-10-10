@@ -64,7 +64,7 @@ import com.zlebank.zplatform.member.merchant.service.EnterpriseService;
  * @date 2016年1月25日 上午10:08:24
  * @since 
  */
-@Service
+@Service("enterpriseService")
 public class EnterpriseServiceImpl implements EnterpriseService {
     private static final Log log = LogFactory.getLog(EnterpriseServiceImpl.class);
     @Autowired

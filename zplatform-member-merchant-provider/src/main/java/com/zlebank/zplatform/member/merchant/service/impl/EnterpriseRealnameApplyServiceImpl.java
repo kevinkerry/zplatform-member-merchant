@@ -35,7 +35,7 @@ import com.zlebank.zplatform.member.merchant.service.EnterpriseRealnameApplyServ
  * @date 2016年8月22日 上午10:47:00
  * @since 
  */
-@Service
+@Service("enterpriseRealnameApplyService")
 public class EnterpriseRealnameApplyServiceImpl implements EnterpriseRealnameApplyService{
 
 	@Autowired

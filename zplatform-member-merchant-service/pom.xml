@@ -17,11 +17,11 @@
 
 	<dependencies>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>zplatform-member-merchant-provider</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>

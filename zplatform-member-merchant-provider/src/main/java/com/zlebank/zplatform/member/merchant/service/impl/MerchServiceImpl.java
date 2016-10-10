@@ -37,7 +37,7 @@ import com.zlebank.zplatform.member.merchant.service.MerchService;
  * @date 2015年9月11日 上午10:09:47
  * @since
  */
-@Service
+@Service("merchService")
 public class MerchServiceImpl implements MerchService {
 	/** 个人生成memberID规则 **/
 	private final static String MERCHPARATYPE = "MERCHBIN";
